@@ -1,0 +1,244 @@
+---
+title: "Untitled"
+author: "Lin"
+date: "4/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+## loading transformed data
+data <- read.csv("data.csv")
+raw <- read.csv("raw.csv")
+imputed <- read.csv("imputed.csv")
+```
+
+```{r}
+library(tidyverse)
+library(funModeling)
+library(Hmisc)
+glimpse(data)
+df_status(data)
+freq(data)
+freq(raw$Size)
+freq(data$Surgery.Decision)
+profiling_num(data$Size)
+plot_num(data)
+describe(raw)
+```
+```{r}
+data$Chemotherapy[which(data$Chemotherapy == "No/Unknown")] <- 0
+data$Chemotherapy[which(data$Chemotherapy == "Yes")] <- 1
+data$Radiation[which(data$Radiation == "No radiation and/or cancer-directed surgery")] <- 0
+data$Radiation[which(data$Radiation == "Radiation after surgery")] <- 1
+data$Radiation[which(data$Radiation == "Radiation prior to surgery")] <- 2
+data$Radiation[which(data$Radiation == "Radiation before and after surgery")] <- 3
+data$Radiation[which(data$Radiation == "Intraoperative rad with other rad before/after surgery")] <- 4
+data$Radiation[which(data$Radiation == "Sequence unknown, but both were given")] <- 5
+data$Radiation[which(data$Radiation == "Surgery both before and after radiation")] <- 6
+data$Radiation[which(data$Radiation == "Intraoperative radiation")] <- 7
+data$Surgery.Decision[which(data$Surgery.Performed. == "Yes")] <- 0
+data$Surgery.Decision[which(data$Surgery.Performed. == "No")] <- 1
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "I")] <- 0
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "II")] <- 1
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "III")] <- 2
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "IVA")] <- 3
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "IVB")] <- 4
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "IVC")] <- 5
+data$AJCC.7.Stage[which(data$AJCC.7.Stage == "IVNOS")] <- 6
+data$Sex[which(data$Sex == "Male")] <- 0
+data$Sex[which(data$Sex == "Female")] <- 1
+data$Year.of.Diagnosis[which(data$Year.of.Diagnosis == 2010)] <- 0
+data$Year.of.Diagnosis[which(data$Year.of.Diagnosis == 2011)] <- 1
+data$Year.of.Diagnosis[which(data$Year.of.Diagnosis == 2012)] <- 2
+data$Year.of.Diagnosis[which(data$Year.of.Diagnosis == 2013)] <- 3
+data$Year.of.Diagnosis[which(data$Year.of.Diagnosis == 2014)] <- 4
+data$Year.of.Diagnosis[which(data$Year.of.Diagnosis == 2015)] <- 5
+data$Race[which(data$Race == "White")] <- 0
+data$Race[which(data$Race == "Black")] <- 1
+data$Race[which(data$Race == "Asian or Pacific Islander")] <- 2
+data$Race[which(data$Race == "Hispanic" )] <- 3
+data$Race[which(data$Race == "American Indian/Alaska Native")] <- 4
+data$Insurance[which(data$Insurance == "Any Medicaid")] <- 0
+data$Insurance[which(data$Insurance == "Insured")] <- 1
+data$Insurance[which(data$Insurance == "Insured/No specifics")] <- 2
+data$Insurance[which(data$Insurance == "Uninsured")] <- 3
+data$Mets[which(data$Mets == "No Mets")] <- 0
+data$Mets[which(data$Mets == "Distant Mets")] <- 1
+data$Site[which(data$Site == "Oral Cavity")] <- 0
+data$Site[which(data$Site == "Sinonasal")] <- 1
+data$Site[which(data$Site == "Larynx")] <- 2
+data$Site[which(data$Site == "Salivary Gland")] <- 3
+data$Site[which(data$Site == "Oropharynx")] <- 4
+data$Site[which(data$Site == "Hypopharynx")] <- 5
+data$Site[which(data$Site == "Nasopharynx")] <- 6
+data$SEER.Registry[which(data$SEER.Registry == "California")] <- 0
+data$SEER.Registry[which(data$SEER.Registry == "Connecticut")] <- 1
+data$SEER.Registry[which(data$SEER.Registry == "Georgia")] <- 2
+data$SEER.Registry[which(data$SEER.Registry == "Alaska")] <- 3
+data$Lymph.Nodes[which(data$Lymph.Nodes == "No Nodal Involvement")] <- 0
+data$Lymph.Nodes[which(data$Lymph.Nodes == "Nodal Involvement")] <- 1
+ncol <- c(2:7,13,15,17:20,23:25)
+newdata <- data[,ncol]
+newdata <- newdata[-19338,]
+write.csv(newdata, file = "binary.csv")
+freq(new_data$Year.of.Diagnosis)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+```{r}
+ncol_new <- c(2:5, 7, 8, 16, 17, 25:27, 29, 31, 33, 35, 37)
+new_data <- imputed[, ncol_new]
+new_data[1,]
+new_data$Sex[which(new_data$Sex == "Male")] <- 0
+new_data$Sex[which(new_data$Sex == "Female")] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1975)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1976)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1977)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1978)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1979)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1980)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1981)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1982)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1983)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1984)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1985)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1986)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1987)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1988)] <- 0
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1989)] <- 0
+
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1990)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1991)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1992)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1993)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1994)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1995)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1996)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1997)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1998)] <- 1
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 1999)] <- 1
+
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2000)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2001)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2002)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2003)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2004)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2005)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2006)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2007)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2008)] <- 2
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2009)] <- 2
+
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2010)] <- 3
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2011)] <- 3
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2012)] <- 3
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2013)] <- 3
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2014)] <- 3
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2015)] <- 3
+new_data$Year.of.Diagnosis[which(new_data$Year.of.Diagnosis == 2016)] <- 3
+```
+
+```{r}
+new_data$Race[which(new_data$Race == "Non-Hispanic White")] <- 0
+new_data$Race[which(new_data$Race == "Hispanic (All Races)")] <- 1
+new_data$Race[which(new_data$Race == "Non-Hispanic Black")] <- 2
+new_data$Race[which(new_data$Race == "Non-Hispanic Asian or Pacific Islander")] <- 3
+new_data$Race[which(new_data$Race == "Non-Hispanic Unknown Race")] <- 4
+new_data$Race[which(new_data$Race == "Non-Hispanic American Indian/Alaska Native")] <- 5
+
+new_data$SEER.Registry[which(new_data$SEER.Registry == "San Francisco-Oakland SMSA - 1975+")] <- 0
+new_data$SEER.Registry[which(new_data$SEER.Registry == "Connecticut - 1975+")] <- 1
+new_data$SEER.Registry[which(new_data$SEER.Registry == "Atlanta (Metropolitan) - 1975+")] <- 2
+new_data$SEER.Registry[which(new_data$SEER.Registry == "Alaska Natives - 1992+")] <- 3
+new_data$SEER.Registry[which(new_data$SEER.Registry == "San Jose-Monterey - 1992+")] <- 4
+new_data$SEER.Registry[which(new_data$SEER.Registry == "San Francisco-Oakland SMSA - 1975+")] <- 5
+new_data$SEER.Registry[which(new_data$SEER.Registry == "Los Angeles - 1992+")] <- 6
+new_data$SEER.Registry[which(new_data$SEER.Registry == "California excluding SF/SJM/LA - 2000+")] <- 7
+new_data$SEER.Registry[which(new_data$SEER.Registry == "Greater Georgia - 2000+")] <- 8
+new_data$SEER.Registry[which(new_data$SEER.Registry == "Rural Georgia - 1992+")] <- 9
+
+
+
+new_data$Site[which(new_data$Site == "Salivary Gland")]  <- 0
+new_data$Site[which(new_data$Site == "Tonsil")]  <- 1
+new_data$Site[which(new_data$Site == "Gum and Other Mouth")]  <- 2
+new_data$Site[which(new_data$Site == "Lip")]  <- 3
+new_data$Site[which(new_data$Site == "Tongue")]  <- 4
+new_data$Site[which(new_data$Site == "Larynx")]  <- 5
+new_data$Site[which(new_data$Site == "Nose, Nasal Cavity and Middle Ear")]  <- 6
+new_data$Site[which(new_data$Site == "Floor of Mouth")]  <- 7
+new_data$Site[which(new_data$Site == "Oropharynx")]  <- 8
+new_data$Site[which(new_data$Site == "Hypopharynx")]  <- 9
+new_data$Site[which(new_data$Site == "Nasopharynx")]  <- 10
+new_data$Site[which(new_data$Site == "Other Oral Cavity and Pharynx")]  <- 11
+
+library(magrittr)
+library(rio)
+as.character(new_data$AJCC.7.Stage_imputed)
+new_data$AJCC.7.Stage[which[new_data$AJCC.7.Stage == "I" ]] <- 0
+new_data$AJCC.7.Stage[which[new_data$AJCC.7.Stage == "II" ]] <- 1
+new_data$AJCC.7.Stage[which[new_data$AJCC.7.Stage == "III" ]] <- 2
+new_data$AJCC.7.Stage[which[new_data$AJCC.7.Stage == "IVA" ]] <- 3
+new_data$AJCC.7.Stage[which[new_data$AJCC.7.Stage == "IVB" ]] <- 4
+new_data$AJCC.7.Stage[which[new_data$AJCC.7.Stage == "IVC"]] <- 5
+
+
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Surgery performed")] <- 0
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Recommended, unknown if performed")] <- 1
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Not recommended")] <- 2
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Recommended but not performed, patient refused")] <- 3
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Recommended but not performed, unknown reason")] <- 4
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Not recommended, contraindicated due to other cond; autopsy only (1973-2002)")] <- 5
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Not performed, patient died prior to recommended surgery")] <- 6
+new_data$Surgery.Decision[which(new_data$Surgery.Decision == "Unknown; death certificate; or autopsy only (2003+)")] <- 7
+
+new_data$Mets[which(new_data$Mets == "No Mets")] <- 0
+new_data$Mets[which(new_data$Mets == "Distant Mets")] <- 1
+
+new_data$AJCC.7.Stage[which(new_data$AJCC.7.Stage == "II")] <- 1
+new_data$AJCC.7.Stage[which(new_data$AJCC.7.Stage == "III")] <- 2
+new_data$AJCC.7.Stage[which(new_data$AJCC.7.Stage == "IVA")] <- 3
+new_data$AJCC.7.Stage[which(new_data$AJCC.7.Stage == "IVB")] <- 4
+new_data$AJCC.7.Stage[which(new_data$AJCC.7.Stage == "IVC")] <- 5
+
+new_data$Insurance[which(new_data$Insurance == "Insured")] <- 0
+new_data$Insurance[which(new_data$Insurance == "Any Medicaid")] <- 1
+new_data$Insurance[which(new_data$Insurance == "Insured/No specifics")] <- 2
+
+new_data$T_Stage[which(new_data$T_Stage == "T1")] <- 0
+new_data$T_Stage[which(new_data$T_Stage == "T2")] <- 1
+new_data$T_Stage[which(new_data$T_Stage == "T3")] <- 2
+
+select_col <- c(1:5, 7, 9:11, 18:22)
+new_data <- new_data[,select_col]
+
+```
+
+```{r}
+new_data$Lymph.Nodes[which(new_data$Lymph.Nodes == "No Nodal Involvement")] <- 0
+new_data$Lymph.Nodes[which(new_data$Lymph.Nodes == "Nodal Involvement")] <- 1
+new_data$Chemotherapy[which(new_data$Chemotherapy == "No/Unknown")] <- 0
+new_data$Chemotherapy[which(new_data$Chemotherapy == "Yes")] <- 1
+new_data$Radiation[which(new_data$Radiation == "No radiation and/or cancer-directed surgery")] <- 0
+new_data$Radiation[which(new_data$Radiation == "Radiation after surgery")] <- 1
+new_data$Radiation[which(new_data$Radiation == "Radiation prior to surgery")] <- 2
+new_data$Radiation[which(new_data$Radiation == "Radiation before and after surgery")] <- 3
+new_data$Radiation[which(new_data$Radiation == "Intraoperative rad with other rad before/after surgery")] <- 4
+new_data$Radiation[which(new_data$Radiation == "Sequence unknown, but both were given")] <- 5
+new_data$Radiation[which(new_data$Radiation == "Surgery both before and after radiation")] <- 6
+new_data$Radiation[which(new_data$Radiation == "Intraoperative radiation")] <- 7
+
+write.csv(new_data, file = "new_seer_data.csv")
+```
+
+
+
